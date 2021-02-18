@@ -36,6 +36,12 @@ class DigitsSpec extends AnyWordSpec with Matchers {
       "the input is a double with more digits before the dot and contains and E and negative" in {
         Digits.calculate(-134.123e16) shouldEqual 19
       }
+      "the input is a double with more zeroes after the dot than the value of E" in {
+        Digits.calculate(0.000123e2) shouldEqual 1
+      }
+      "the input is a double with less zeroes after the dot than the value of E" in {
+        Digits.calculate(0.000123e7) shouldEqual 4
+      }
       "the input is a float with 2 digits precision" in {
         Digits.calculate(10.23f) shouldEqual 2
       }

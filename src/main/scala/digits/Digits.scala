@@ -1,30 +1,15 @@
 package digits
 
+import BigDecimalConverter._
+
 object Digits {
 
-  def calculate(number: Number): Int = {
-    val stringRepresentation = number.toString
-
-    val integerPart = stringRepresentation
-      .dropWhile(negativeSign)
-      .takeWhile(notDot)
-
-    val integerDigits = integerPart.length
-
-    if (existsE(stringRepresentation)) {
-      val remaining =
-        stringRepresentation
-          .drop(integerDigits)
-          .dropWhile(c => !equalsE(c))
-          .drop(1)
-          .toInt
-
-      integerDigits + remaining
-    } else integerDigits
+  def calculate[T: BigDecimalConverter](number: T): Int = {
+    loop(number.toBigDecimal.abs, 0)
   }
 
-  val negativeSign: Char => Boolean = _ == '-'
-  val notDot: Char => Boolean = _ != '.'
-  val equalsE: Char => Boolean = _ == 'E'
-  val existsE: String => Boolean = _ exists equalsE
+  @scala.annotation.tailrec
+  def loop(n: BigDecimal, digits: Int): Int =
+    if (n < 10) digits + 1
+    else loop(n / 10, digits + 1)
 }

@@ -1,5 +1,8 @@
 package digits
 
+import java.math.BigInteger
+import java.util.concurrent.atomic.AtomicInteger
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -21,7 +24,7 @@ class DigitsSpec extends AnyWordSpec with Matchers {
       "the input is the max value of long" in {
         Digits.calculate(Long.MaxValue) shouldEqual 19
       }
-      "the input is a negativ integer" in {
+      "the input is a negative integer" in {
         Digits.calculate(-1) shouldEqual 1
       }
       "the input is 'bigger' than the max value of long" in {
@@ -42,11 +45,23 @@ class DigitsSpec extends AnyWordSpec with Matchers {
       "the input is a double with less zeroes after the dot than the value of E" in {
         Digits.calculate(0.000123e7) shouldEqual 4
       }
+      "the input is a double with negative E" in {
+        Digits.calculate(5.3687206e-31) shouldEqual 1
+      }
       "the input is a float with 2 digits precision" in {
         Digits.calculate(10.23f) shouldEqual 2
       }
-      "the input is a fmax value of float" in {
+      "the input is a max value of float" in {
         Digits.calculate(Float.MaxValue) shouldEqual 39
+      }
+      "the input is a BigDecimal" in {
+        Digits.calculate(BigDecimal(1)) shouldEqual 1
+      }
+      "the input is a BigInteger" in {
+        Digits.calculate(new BigInteger("1")) shouldEqual 1
+      }
+      "the input is a AtomicInteger" in {
+        Digits.calculate(new AtomicInteger(1)) shouldEqual 1
       }
     }
   }
